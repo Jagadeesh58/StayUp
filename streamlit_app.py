@@ -289,9 +289,9 @@ def run_replay_point_ai(point: dict[str, Any], match_id: str, language: str) -> 
 
 
 def render_state_section() -> None:
-    st.markdown('<div class="overline">01 / Manual chase · no live feed</div>',unsafe_allow_html=True)
+    st.markdown('<div class="overline">01 / Chase Analysis</div>', unsafe_allow_html=True)
     st.title("Is it still alive?")
-    st.write("Enter the current scoreboard to see whether the chase is still alive, both teams’ historical win chances, and observed next-over outcomes from comparable prior IPL situations. No live feed or guarantee.")
+    st.write("Enter the current scoreboard to see whether the chase is still alive, both teams’ historical win chances, and observed next-over outcomes from comparable prior IPL situations.")
     if "quick_entry_result" not in st.session_state:
         try: st.session_state.quick_entry_result = parse_quick_entry("112/3 13.2 t189")
         except CricketInputError: st.session_state.quick_entry_result = None
@@ -378,22 +378,18 @@ def render_state_section() -> None:
     st.markdown(f'<div class="equation">{state["score"]}/{state["wickets_lost"]} · {state["overs_display"]} overs <span style="color:var(--stay-muted)">→</span> {state["runs_required"]} needed / {state["balls_remaining"]} balls</div>', unsafe_allow_html=True)
     st.markdown('<div class="overline">Chase verdict</div>', unsafe_allow_html=True)
     verdict_text = chase_verdict(p)
-    verdict_headline = f"{verdict_text} · {pct(p)}" if p is not None else verdict_text
-    if p is None:
-        band_desc = "Not enough historical match support to classify this chase."
-    elif p >= 0.65:
-        band_desc = f"Current chase falls in the **Chasing side favoured** band ({pct(p)} ≥ 65%)."
-    elif p >= 0.35:
-        band_desc = f"Current chase falls in the **Close chase** band ({pct(p)} is between 35% and 65%)."
+    if p is not None:
+        st.markdown(f'<div class="verdict">{verdict_text} <span style="font-size:1.6rem;font-weight:400;color:var(--stay-muted);">· {pct(p)}</span></div>', unsafe_allow_html=True)
+        st.caption(f"Historical probability classification: **{verdict_text}** ({pct(p)} chasing win rate). Calibration bands: Chasing favoured (≥65%), Close contest (35%–65%), Defending favoured (<35%).")
     else:
-        band_desc = f"Current chase falls in the **Defending side favoured** band (chasing chance {pct(p)} < 35%)."
-    st.caption(f"{band_desc} Based on historical IPL states; never a guarantee. Thresholds: chasing favoured at ≥65%, close from 35% to under 65%, defending favoured below 35%.")
+        st.markdown(f'<div class="verdict">{verdict_text}</div>', unsafe_allow_html=True)
+        st.caption("Insufficient historical match states to classify this chase situation.")
     chance_row = st.columns(2)
     chance_row[0].metric("Chasing side", pct(p))
     chance_row[1].metric("Defending side", pct(1 - p if p is not None else None))
     st.metric("Effective historical sample size", f"≈ {model.get('effective_sample_size', 0):.0f} weighted states" if p is not None else "—")
     if p is not None:
-        st.progress(max(0.0, min(1.0, float(p))), text="Historical estimate for the chasing side · not a live probability feed")
+        st.progress(max(0.0, min(1.0, float(p))), text=f"Historical win share: {pct(p)} chasing · {pct(1 - p)} defending")
     st.caption(f"{model.get('note', 'Historical model output unavailable')} Effective sample size accounts for recency weights; it is not a raw count of independent matches.")
     st.markdown("**The equation**")
     st.write(f"{state['runs_required']} runs from {state['balls_remaining']} legal balls · {state['wickets_remaining']} wickets remaining · current rate {fmt_rate(state['current_run_rate'])} · required rate {fmt_rate(state['required_run_rate'])} runs per over.")
@@ -748,5 +744,4 @@ with tabs[2]:
     with analysis_tabs[2]: render_model_evaluation()
 
 st.divider()
-st.caption("StayUp Cricket · [GitHub Repository](https://github.com/Jagadeesh58/StayUp) · [Live App](https://stayup.streamlit.app/)")
-st.caption("Independent prototype. Not affiliated with Dream11, IPL, BCCI or Cricsheet. Historical IPL data is attributed to Cricsheet under ODC-By 1.0. No live feed, broadcast monitoring or prediction guarantee.")
+st.caption("StayUp Cricket · [GitHub Repository](https://github.com/Jagadeesh58/StayUp) · [Live App](https://stayup.streamlit.app/) · Historical IPL match data sourced from Cricsheet (ODC-By 1.0)")
