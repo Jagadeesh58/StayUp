@@ -1,5 +1,8 @@
 # StayUp Cricket — Project Submission Note
 
+- **Live Web Application**: [https://stayup.streamlit.app/](https://stayup.streamlit.app/)
+- **GitHub Repository**: [https://github.com/Jagadeesh58/StayUp](https://github.com/Jagadeesh58/StayUp)
+
 When you tune into a T20 chase halfway through, broadcasts rarely answer the real question: is this chase still alive? StayUp Cricket gives fans an instant, grounded read without a live score feed.
 
 You type the match state (for example 112/3 13.2 t189) and get the exact equation, both teams’ historical win chances, a verdict on which side history favours, and what comparable IPL chases did over the next over. A second tab replays 15 real IPL chases ball by ball, hiding future scores and the result until you reach them.

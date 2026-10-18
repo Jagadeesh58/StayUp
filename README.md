@@ -6,9 +6,16 @@
 
 StayUp Cricket answers it instantly. Enter the current score, get historical win probabilities grounded in 1,172 IPL matches, and replay past chases ball-by-ball — all without needing a live feed.
 
+[![Live App](https://img.shields.io/badge/Streamlit-Live%20App-FF4B4B.svg)](https://stayup.streamlit.app/)
+[![GitHub Repo](https://img.shields.io/badge/GitHub-Jagadeesh58%2FStayUp-blue.svg?logo=github)](https://github.com/Jagadeesh58/StayUp)
 [![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![Tests](https://img.shields.io/badge/tests-115%20passed-brightgreen.svg)](.github/workflows/tests.yml)
+
+---
+
+- 🌐 **Live Web Application**: [https://stayup.streamlit.app/](https://stayup.streamlit.app/)
+- 📦 **GitHub Repository**: [https://github.com/Jagadeesh58/StayUp](https://github.com/Jagadeesh58/StayUp)
 
 ---
 

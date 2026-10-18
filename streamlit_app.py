@@ -748,4 +748,5 @@ with tabs[2]:
     with analysis_tabs[2]: render_model_evaluation()
 
 st.divider()
+st.caption("StayUp Cricket · [GitHub Repository](https://github.com/Jagadeesh58/StayUp) · [Live App](https://stayup.streamlit.app/)")
 st.caption("Independent prototype. Not affiliated with Dream11, IPL, BCCI or Cricsheet. Historical IPL data is attributed to Cricsheet under ODC-By 1.0. No live feed, broadcast monitoring or prediction guarantee.")
