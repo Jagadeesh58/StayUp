@@ -111,9 +111,12 @@ def _read_env_or_secret(key_name: str, default: str = "") -> str:
 
 
 def ai_configuration() -> dict[str, Any]:
-    enabled_str = _read_env_or_secret("AI_ENABLED", "false")
-    enabled = enabled_str.lower() in {"1", "true", "yes", "on"}
     key = _read_env_or_secret("GROQ_API_KEY", "")
+    enabled_str = _read_env_or_secret("AI_ENABLED", "")
+    if enabled_str:
+        enabled = enabled_str.lower() in {"1", "true", "yes", "on"}
+    else:
+        enabled = bool(key)
     model = DEFAULT_MODEL
     verified_for_current_config = bool(
         _last_success_at
