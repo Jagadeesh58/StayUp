@@ -91,7 +91,7 @@ APP_DB_PATH = "/tmp/stayup_state.sqlite3"
 ## Project Structure
 
 ```
-├── streamlit_app.py          # Main Streamlit application (612 lines)
+├── streamlit_app.py          # Main Streamlit application (~760 lines)
 ├── app/
 │   ├── cricket.py            # Canonical cricket state engine
 │   ├── model.py              # Historical probability lookup + replay
@@ -113,7 +113,7 @@ APP_DB_PATH = "/tmp/stayup_state.sqlite3"
 
 ```bash
 pytest -o addopts='' -q -rs
-# 115 passed, 1 warning in 70s
+# 115 passed, 1 warning
 ```
 
 The suite covers cricket edge cases, model calibration, replay spoiler gates, multi-language numeric grounding (including compound numbers like "one hundred and five" → 105), AI fallback/kill switch, WCAG AA contrast checks, API schema validation, and headless Streamlit browser tests across desktop and mobile viewports.
@@ -135,6 +135,8 @@ See [`docs/AI_EVALUATION.md`](docs/AI_EVALUATION.md) for full methodology, per-c
 - **No live feed.** You enter the score manually — this is a companion tool, not a broadcast replacement.
 - **First-innings estimates are weaker.** The UI warns about this explicitly rather than hiding it.
 - **AI is optional.** Missing keys, provider failures, or invalid output always fall back to deterministic server-owned wording.
+- **AI budget is shared and session-scoped.** The global daily limit defaults to 20 calls (`AI_DAILY_BUDGET` env var). Each browser session gets its own isolated rate-limit slot using a cryptographically random token. The fallback calculated explanation is clearly labelled when the budget is exhausted.
+- **SQLite budget resets on restart.** On Streamlit Community Cloud the SQLite file lives in `/tmp`, so the daily spend counter resets whenever the app cold-starts. The calculated explanation remains fully available at all times.
 
 ## Data Attribution
 

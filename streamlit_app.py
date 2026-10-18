@@ -50,7 +50,7 @@ from app.theme import DARK_PALETTE, LIGHT_PALETTE
 from app.budget import reserve_streamlit_ai_budget
 from app.explanation import _fallback_focus, render_explanation
 
-st.set_page_config(page_title="StayUp Cricket", page_icon=None, layout="wide", initial_sidebar_state="expanded")
+st.set_page_config(page_title="StayUp Cricket", page_icon=None, layout="wide", initial_sidebar_state="auto")
 dark_mode = st.sidebar.toggle("Dark editorial mode", value=False, help="Switch contrast-safe light/dark reading themes.")
 palette = DARK_PALETTE if dark_mode else LIGHT_PALETTE
 css = """<style>
@@ -72,12 +72,20 @@ p, label, li, [data-testid="stMarkdownContainer"] { color:var(--stay-ink); }
 [data-testid="stTabs"] button { font-weight:600; }
 [data-testid="stTabs"] button[aria-selected="true"] { color:var(--stay-ink); border-bottom-color:var(--stay-lime); }
 .stButton button[kind="primary"] { background:var(--stay-primary); color:var(--stay-primary-text); border:1px solid var(--stay-primary); border-radius:2px; font-weight:600; }
-.stButton button { border-radius:2px; }
+.stButton button { border-radius:2px; background:var(--stay-control); color:var(--stay-ink); border-color:var(--stay-line); }
+.stButton button:hover { filter:brightness(0.9); }
 button:focus-visible, input:focus-visible, textarea:focus-visible, [role="slider"]:focus-visible, [role="tab"]:focus-visible { outline:3px solid #82964a !important; outline-offset:2px !important; }
 .stTextInput input, .stNumberInput input, .stTextArea textarea, .stSelectbox div[data-baseweb="select"] { border-radius:2px; color:var(--stay-ink); background:var(--stay-control); }
+[data-baseweb="select"] * { color:var(--stay-ink) !important; }
+[data-baseweb="popover"] li, [data-baseweb="popover"] ul, [data-baseweb="menu"] { background:var(--stay-control) !important; color:var(--stay-ink) !important; }
 .stAlert { border-radius:2px; }
 .stCaption, small, [data-testid="stCaptionContainer"] { color:var(--stay-muted); }
 hr { border-color:var(--stay-line); }
+[data-testid="stExpander"] summary, [data-testid="stExpander"] details summary { color:var(--stay-ink); background:var(--stay-control); border-color:var(--stay-line); }
+[data-testid="stExpander"] { border-color:var(--stay-line) !important; }
+code, pre, [data-testid="stCode"] { background:var(--stay-control) !important; color:var(--stay-ink) !important; border-color:var(--stay-line) !important; }
+[data-testid="stRadio"] label { color:var(--stay-ink); }
+[data-testid="stRadio"] div[data-testid="stMarkdownContainer"] p { color:var(--stay-ink); }
 .overline { font-family:Consolas,'Courier New',monospace; font-size:.72rem; letter-spacing:.13em; text-transform:uppercase; color:var(--stay-muted); }
 .equation { font-family:Consolas,'Courier New',monospace; font-size:clamp(1.5rem,5vw,2.8rem); font-weight:500; letter-spacing:-.05em; padding:.8rem 0 1.1rem 0; border-bottom:1px solid var(--stay-line); overflow-wrap:anywhere; }
 .verdict { font-family:Georgia,'Times New Roman',serif; font-size:clamp(2rem,4vw,3.2rem); line-height:1.05; margin:.15rem 0 .5rem 0; }
@@ -107,16 +115,13 @@ def safe_model_lookup(score: int, wickets: int, balls: int, target: int, *, as_o
 
 
 def _get_client_token() -> str:
-    """Derive client key from request headers when available, falling back to session token."""
-    ip = ""
-    try:
-        headers = getattr(st.context, "headers", {})
-        if headers:
-            ip = headers.get("x-forwarded-for", "").split(",")[0].strip() or headers.get("host", "").strip()
-    except Exception:
-        pass
-    if ip:
-        return f"ip:{ip}"
+    """Return a cryptographically random per-session token for AI rate limiting.
+
+    Using request headers (x-forwarded-for, host) here is unsafe: x-forwarded-for
+    is client-controlled on Streamlit Community Cloud, and the host header is the
+    same for every visitor, which would collapse all users into one shared budget
+    slot. A random per-session token correctly isolates each browser session.
+    """
     if "ai_session" not in st.session_state:
         st.session_state.ai_session = os.urandom(16).hex()
     return f"session:{st.session_state.ai_session}"
@@ -356,11 +361,6 @@ def render_state_section() -> None:
                 st.session_state.field_overs = parsed["completed_overs"]
                 st.session_state.field_balls = parsed["balls_in_over"]
                 st.session_state.field_target = parsed["target"]
-                st.session_state.input_field_score = parsed["score"]
-                st.session_state.input_field_wickets = parsed["wickets_lost"]
-                st.session_state.input_field_overs = parsed["completed_overs"]
-                st.session_state.input_field_balls = parsed["balls_in_over"]
-                st.session_state.input_field_target = parsed["target"]
                 st.session_state.pop("state_explanation", None)
                 st.rerun()
             except CricketInputError as exc:

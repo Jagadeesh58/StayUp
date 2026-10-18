@@ -614,7 +614,10 @@ def _provider_selection(
         "model": model,
         "messages": [{"role": "system", "content": system}, {"role": "user", "content": user}],
         "temperature": 0,
-        "max_tokens": 1024,
+        # 2048 tokens leaves enough headroom for the model's internal <think> budget
+        # while guaranteeing the short JSON output is never truncated. At 1024 the
+        # thinking pass can consume the entire budget and silently cut off the JSON.
+        "max_tokens": 2048,
         "response_format": {"type": "json_schema", "json_schema": _response_schema(relationship_ids, focus_ids, claim_ids)},
     }
     try:
