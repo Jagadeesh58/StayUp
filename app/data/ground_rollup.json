@@ -1,0 +1,154 @@
+{
+  "Arun Jaitley Stadium, Delhi": {
+    "bat_first_win_rate": 0.48,
+    "first_innings_average": 193.6,
+    "matches": 25,
+    "note": "Inferred from 2022+ eligible IPL results; not a curator's report.",
+    "sixes_per_match": 19.2,
+    "wickets_per_innings": 6.06
+  },
+  "Barsapara Cricket Stadium, Guwahati": {
+    "bat_first_win_rate": 0.429,
+    "first_innings_average": 171.6,
+    "matches": 7,
+    "note": "Inferred from 2022+ eligible IPL results; not a curator's report.",
+    "sixes_per_match": 13.4,
+    "wickets_per_innings": 6.29
+  },
+  "Bharat Ratna Shri Atal Bihari Vajpayee Ekana Cricket Stadium, Lucknow": {
+    "bat_first_win_rate": 0.385,
+    "first_innings_average": 176.2,
+    "matches": 26,
+    "note": "Inferred from 2022+ eligible IPL results; not a curator's report.",
+    "sixes_per_match": 13.6,
+    "wickets_per_innings": 6.0
+  },
+  "Brabourne Stadium, Mumbai": {
+    "bat_first_win_rate": 0.5,
+    "first_innings_average": 177.2,
+    "matches": 16,
+    "note": "Inferred from 2022+ eligible IPL results; not a curator's report.",
+    "sixes_per_match": 13.7,
+    "wickets_per_innings": 6.38
+  },
+  "Dr DY Patil Sports Academy, Mumbai": {
+    "bat_first_win_rate": 0.5,
+    "first_innings_average": 170.7,
+    "matches": 20,
+    "note": "Inferred from 2022+ eligible IPL results; not a curator's report.",
+    "sixes_per_match": 14.2,
+    "wickets_per_innings": 6.33
+  },
+  "Dr. Y.S. Rajasekhara Reddy ACA-VDCA Cricket Stadium, Visakhapatnam": {
+    "bat_first_win_rate": 0.5,
+    "first_innings_average": 208.8,
+    "matches": 4,
+    "note": "Inferred from 2022+ eligible IPL results; not a curator's report.",
+    "sixes_per_match": 22.5,
+    "wickets_per_innings": 7.25
+  },
+  "Eden Gardens, Kolkata": {
+    "bat_first_win_rate": 0.519,
+    "first_innings_average": 197.3,
+    "matches": 27,
+    "note": "Inferred from 2022+ eligible IPL results; not a curator's report.",
+    "sixes_per_match": 19.5,
+    "wickets_per_innings": 6.13
+  },
+  "Himachal Pradesh Cricket Association Stadium, Dharamsala": {
+    "bat_first_win_rate": 0.667,
+    "first_innings_average": 214.4,
+    "matches": 9,
+    "note": "Inferred from 2022+ eligible IPL results; not a curator's report.",
+    "sixes_per_match": 22.1,
+    "wickets_per_innings": 6.61
+  },
+  "M Chinnaswamy Stadium, Bengaluru": {
+    "bat_first_win_rate": 0.478,
+    "first_innings_average": 194.5,
+    "matches": 23,
+    "note": "Inferred from 2022+ eligible IPL results; not a curator's report.",
+    "sixes_per_match": 20.4,
+    "wickets_per_innings": 6.2
+  },
+  "MA Chidambaram Stadium, Chepauk, Chennai": {
+    "bat_first_win_rate": 0.387,
+    "first_innings_average": 172.7,
+    "matches": 31,
+    "note": "Inferred from 2022+ eligible IPL results; not a curator's report.",
+    "sixes_per_match": 13.5,
+    "wickets_per_innings": 6.23
+  },
+  "Maharaja Yadavindra Singh International Cricket Stadium, Mullanpur": {
+    "bat_first_win_rate": 0.5,
+    "first_innings_average": 163.0,
+    "matches": 10,
+    "note": "Inferred from 2022+ eligible IPL results; not a curator's report.",
+    "sixes_per_match": 13.6,
+    "wickets_per_innings": 7.2
+  },
+  "Maharaja Yadavindra Singh International Cricket Stadium, New Chandigarh": {
+    "bat_first_win_rate": 0.429,
+    "first_innings_average": 220.3,
+    "matches": 7,
+    "note": "Inferred from 2022+ eligible IPL results; not a curator's report.",
+    "sixes_per_match": 25.0,
+    "wickets_per_innings": 5.79
+  },
+  "Maharashtra Cricket Association Stadium, Pune": {
+    "bat_first_win_rate": 0.769,
+    "first_innings_average": 171.5,
+    "matches": 13,
+    "note": "Inferred from 2022+ eligible IPL results; not a curator's report.",
+    "sixes_per_match": 15.4,
+    "wickets_per_innings": 6.73
+  },
+  "Narendra Modi Stadium, Ahmedabad": {
+    "bat_first_win_rate": 0.514,
+    "first_innings_average": 188.9,
+    "matches": 35,
+    "note": "Inferred from 2022+ eligible IPL results; not a curator's report.",
+    "sixes_per_match": 17.1,
+    "wickets_per_innings": 6.49
+  },
+  "Punjab Cricket Association IS Bindra Stadium, Mohali, Chandigarh": {
+    "bat_first_win_rate": 0.5,
+    "first_innings_average": 199.5,
+    "matches": 4,
+    "note": "Inferred from 2022+ eligible IPL results; not a curator's report.",
+    "sixes_per_match": 15.0,
+    "wickets_per_innings": 6.0
+  },
+  "Rajiv Gandhi International Stadium, Uppal, Hyderabad": {
+    "bat_first_win_rate": 0.52,
+    "first_innings_average": 197.1,
+    "matches": 25,
+    "note": "Inferred from 2022+ eligible IPL results; not a curator's report.",
+    "sixes_per_match": 18.2,
+    "wickets_per_innings": 5.8
+  },
+  "Sawai Mansingh Stadium, Jaipur": {
+    "bat_first_win_rate": 0.429,
+    "first_innings_average": 194.5,
+    "matches": 21,
+    "note": "Inferred from 2022+ eligible IPL results; not a curator's report.",
+    "sixes_per_match": 17.5,
+    "wickets_per_innings": 5.1
+  },
+  "Shaheed Veer Narayan Singh International Stadium, Raipur": {
+    "bat_first_win_rate": 0.0,
+    "first_innings_average": 179.0,
+    "matches": 2,
+    "note": "Inferred from 2022+ eligible IPL results; not a curator's report.",
+    "sixes_per_match": 14.0,
+    "wickets_per_innings": 5.75
+  },
+  "Wankhede Stadium, Mumbai": {
+    "bat_first_win_rate": 0.417,
+    "first_innings_average": 183.6,
+    "matches": 48,
+    "note": "Inferred from 2022+ eligible IPL results; not a curator's report.",
+    "sixes_per_match": 17.7,
+    "wickets_per_innings": 5.79
+  }
+}
