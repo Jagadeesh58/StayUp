@@ -14,7 +14,7 @@ StayUp Cricket answers it instantly. Enter the current score, get historical win
 
 ---
 
-- 🌐 **Live Web Application**: [https://stayup.streamlit.app/](https://stayup.streamlit.app/)
+- 🌐 **Live Web Application**: [https://stayup.streamlit.app/](https://stayup.streamlit.app)
 - 📦 **GitHub Repository**: [https://github.com/Jagadeesh58/StayUp](https://github.com/Jagadeesh58/StayUp)
 
 ---
