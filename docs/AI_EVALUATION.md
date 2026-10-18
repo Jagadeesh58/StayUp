@@ -82,14 +82,14 @@ Each calibrator is fit with a two-parameter logistic map on walk-forward predict
 Every LLM generation passes through a strict multi-tier validation pipeline before being rendered to the user:
 
 1. **Strict Numeric Grounding**:
-   - Every number in the generated response (both Arabic numerals and spelled-out number words in English, Hindi, Telugu, Tamil, Bengali, Marathi, and Hinglish) must be mathematically present in the server's pre-computed facts (`score`, `target`, `runs_required`, `balls_remaining`, `current_rate`, `required_rate`).
+   - Every number in the generated response (both Arabic numerals and spelled-out number words in English, Hindi, Telugu, Tamil, Bengali, Kannada, and Hinglish) must be mathematically present in the server's pre-computed facts (`score`, `target`, `runs_required`, `balls_remaining`, `current_rate`, `required_rate`).
    - If any ungrounded number or invented statistic is detected, the response is rejected immediately (`AIProviderError`) and replaced by a deterministic server-calculated explanation.
 2. **Causal & Speculation Filtering**:
    - The LLM is restricted to descriptive situational framing. Any speculative claims attributing psychological states or unmeasured causes (e.g. "nervous", "collapsed", "frightened", "panicked") are trapped and rejected.
 3. **Sentence Count & Conciseness**:
    - Responses are strictly validated to 2–3 complete sentences.
 4. **Multilingual Support**:
-   - Supported across 7 languages (English, Hindi, Telugu, Tamil, Bengali, Marathi, Hinglish). Number words in each language (e.g. "seventy-seven", regional numeral forms, compound numerals like "one hundred and five") are parsed and validated against ground truth facts.
+   - Supported across 7 languages (English, Hindi, Telugu, Tamil, Bengali, Kannada, Hinglish). Number words in each language (e.g. "seventy-seven", regional numeral forms, compound numerals like "one hundred and five") are parsed and validated against ground truth facts.
 
 ### 3. Rate Limiting, Safety & Budget Isolation
 
