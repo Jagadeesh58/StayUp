@@ -1,0 +1,29 @@
+name: Tests
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Install app and test dependencies
+        run: python -m pip install -r requirements-dev.txt
+      - name: Install Chromium for the Streamlit browser test
+        run: python -m playwright install --with-deps chromium
+      - name: Compile Python source
+        run: python -m compileall -q app tests scripts streamlit_app.py
+      - name: Run full test suite, including headless Streamlit browser flow
+        run: pytest -q -rs
