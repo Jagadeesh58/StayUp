@@ -1,0 +1,57 @@
+{
+  "cohort_matching_rule": {
+    "date_cutoff_exclusive": true,
+    "legal_balls_used_abs_difference_max": 6,
+    "one_checkpoint_per_match": true,
+    "required_rate_abs_difference_max": 1.0,
+    "wickets_abs_difference_max": 1
+  },
+  "cohort_minimum_n": 30,
+  "data_versions": {
+    "1.2.0": 1172
+  },
+  "date_range": [
+    "2008-04-18",
+    "2026-05-31"
+  ],
+  "eligible_reconciled_matches": 1172,
+  "excluded_counts": {
+    "DLS_or_D_L_method": 22,
+    "DLS_or_D_L_method,miscounted_overs": 1,
+    "first_innings_incomplete": 10,
+    "miscounted_overs": 7,
+    "missing_winner": 3,
+    "missing_winner,innings_not_two": 22,
+    "second_innings_incomplete": 6
+  },
+  "generator_version": "2.0.0",
+  "input_json_files": 1243,
+  "license": "Open Data Commons Attribution License (ODC-By) 1.0",
+  "license_url": "https://cricsheet.org/licensing/",
+  "matchup_cell_count": 58435,
+  "model_observation_count": 43219,
+  "note": "The raw source ZIP is not redistributed. Only reproducibly derived compact artifacts and the source licence are included.",
+  "recency_half_life_years": 6.0,
+  "replay_match_count": 15,
+  "replay_match_ids": [
+    "1359487",
+    "1527687",
+    "1529297",
+    "1527677",
+    "1527688",
+    "1473441",
+    "1473490",
+    "1473473",
+    "1426274",
+    "1426288",
+    "1216527",
+    "548318",
+    "1426269",
+    "1529298",
+    "1529270"
+  ],
+  "required_rate_bucket_width": 2.0,
+  "source_archive_name": "ipl_json.zip",
+  "source_archive_sha256": "5757e04287179767ff8495f02902bd13812b9572ec8fa2ac1347ec2e9c6d4709",
+  "source_url": "https://cricsheet.org/downloads/ipl_json.zip"
+}
