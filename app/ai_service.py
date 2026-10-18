@@ -85,9 +85,35 @@ def _provider_config_fingerprint(key: str, model: str) -> str:
     return sha256(f"{model}\0{key}".encode()).hexdigest()
 
 
+def _read_env_or_secret(key_name: str, default: str = "") -> str:
+    """Read configuration from os.environ first, then Streamlit secrets if present."""
+    val = os.getenv(key_name)
+    if val is not None and val.strip():
+        return val.strip()
+    for k, v in os.environ.items():
+        if k.upper() == key_name.upper() and str(v).strip():
+            return str(v).strip()
+
+    try:
+        import streamlit as st
+        if hasattr(st, "secrets"):
+            for k, v in st.secrets.items():
+                if str(k).upper() == key_name.upper() and str(v).strip():
+                    return str(v).strip()
+                if isinstance(v, dict) or hasattr(v, "items"):
+                    for sub_k, sub_v in v.items():
+                        if str(sub_k).upper() == key_name.upper() and str(sub_v).strip():
+                            return str(sub_v).strip()
+    except Exception:
+        pass
+
+    return default.strip()
+
+
 def ai_configuration() -> dict[str, Any]:
-    enabled = os.getenv("AI_ENABLED", "false").strip().lower() in {"1", "true", "yes", "on"}
-    key = os.getenv("GROQ_API_KEY", "").strip()
+    enabled_str = _read_env_or_secret("AI_ENABLED", "false")
+    enabled = enabled_str.lower() in {"1", "true", "yes", "on"}
+    key = _read_env_or_secret("GROQ_API_KEY", "")
     model = DEFAULT_MODEL
     verified_for_current_config = bool(
         _last_success_at
@@ -559,7 +585,7 @@ def validate_grounded_explanation(text: str, selected_facts: Any, language: str 
 def _provider_selection(
     *, context: dict[str, Any], relationship_ids: list[str], focus_ids: list[str], claim_ids: list[str]
 ) -> dict[str, Any]:
-    api_key = os.getenv("GROQ_API_KEY", "").strip()
+    api_key = _read_env_or_secret("GROQ_API_KEY")
     if not api_key:
         raise AIProviderError("GROQ_API_KEY is not configured.")
     model = ai_configuration()["model"]

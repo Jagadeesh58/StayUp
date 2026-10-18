@@ -17,11 +17,21 @@ import streamlit as st
 logger = logging.getLogger("stayup.streamlit")
 
 # Streamlit Cloud secrets are exposed through st.secrets, not necessarily the
-# process environment. Copy only named runtime values into os.environ; never log them.
+# process environment. Copy all named runtime values into os.environ.
 try:
-    for _name in ("GROQ_API_KEY", "AI_ENABLED", "AI_DAILY_BUDGET", "AI_BURST_PER_MINUTE", "APP_DB_PATH", "RATE_LIMIT_SALT"):
-        if _name in st.secrets and not os.getenv(_name):
-            os.environ[_name] = str(st.secrets[_name])
+    if hasattr(st, "secrets"):
+        for _name in ("GROQ_API_KEY", "AI_ENABLED", "AI_DAILY_BUDGET", "AI_BURST_PER_MINUTE", "APP_DB_PATH", "RATE_LIMIT_SALT"):
+            if _name in st.secrets:
+                os.environ[_name] = str(st.secrets[_name]).strip()
+            elif _name.lower() in st.secrets:
+                os.environ[_name] = str(st.secrets[_name.lower()]).strip()
+        for _k, _v in st.secrets.items():
+            if isinstance(_v, (str, int, float, bool)):
+                os.environ[str(_k).upper()] = str(_v).strip()
+            elif isinstance(_v, dict) or hasattr(_v, "items"):
+                for _sub_k, _sub_v in _v.items():
+                    if isinstance(_sub_v, (str, int, float, bool)):
+                        os.environ[str(_sub_k).upper()] = str(_sub_v).strip()
 except Exception:
     # A local secrets file is optional. Missing configuration is reported below.
     pass
@@ -133,6 +143,7 @@ def run_state_ai(state: dict[str, Any], language: str) -> tuple[dict[str, Any], 
     _, focus, selected = _fallback_focus("current_state_context", context)
     source = "calculated"
     selection = None
+    last_error: str | None = None
     config = ai_configuration()
     if config["enabled"] and config["configured"]:
         try:
@@ -150,6 +161,7 @@ def run_state_ai(state: dict[str, Any], language: str) -> tuple[dict[str, Any], 
         except (AIProviderError, RuntimeError) as exc:
             logger.warning("Streamlit AI fallback triggered: %s", exc)
             source = "calculated"
+            last_error = str(exc)
     rendered = render_explanation("current_state_context", focus, context, language)
     if source in {"live", "cached"} and selection and selection.explanation.strip():
         rendered["answer"] = selection.explanation
@@ -157,6 +169,12 @@ def run_state_ai(state: dict[str, Any], language: str) -> tuple[dict[str, Any], 
         label = f"Live AI explanation · {config['model']}"
     elif source == "cached":
         label = f"Cached AI explanation · {config['model']}"
+    elif not config["enabled"]:
+        label = "Calculated explanation · Live AI is disabled (set AI_ENABLED = 'true' in Secrets)"
+    elif not config["configured"]:
+        label = "Calculated explanation · GROQ_API_KEY is missing or empty in Secrets"
+    elif last_error:
+        label = f"Calculated explanation · Provider issue: {last_error}"
     else:
         label = "Calculated explanation · AI unavailable, disabled or not configured"
     rendered.update({"focus_id": focus, "selected_claim_ids": selected, "source": source})
@@ -217,6 +235,8 @@ def run_replay_point_ai(point: dict[str, Any], match_id: str, language: str) -> 
     context = {"intent": intent, "card": card, "claims": claims, "claim_ids": claim_ids}
     selected_claim_ids = sorted(requirements.get(focus, {}).get(relation, set()))
     source = "calculated"
+    selection = None
+    last_error: str | None = None
     config = ai_configuration()
     if config["enabled"] and config["configured"]:
         try:
@@ -241,8 +261,9 @@ def run_replay_point_ai(point: dict[str, Any], match_id: str, language: str) -> 
             relation, focus = selection.relationship_id, selection.focus_id
             selected_claim_ids = selection.selected_claim_ids
             source = selection.source
-        except (AIProviderError, RuntimeError):
+        except (AIProviderError, RuntimeError) as exc:
             source = "calculated"
+            last_error = str(exc)
     rendered = render_explanation(intent, focus, context, language)
     if source in {"live", "cached"} and selection is not None and selection.explanation.strip():
         rendered["answer"] = selection.explanation
@@ -250,6 +271,12 @@ def run_replay_point_ai(point: dict[str, Any], match_id: str, language: str) -> 
         label = f"Live AI explanation · {config['model']}"
     elif source == "cached":
         label = f"Cached AI explanation · {config['model']}"
+    elif not config["enabled"]:
+        label = "Calculated explanation · Live AI is disabled (set AI_ENABLED = 'true' in Secrets)"
+    elif not config["configured"]:
+        label = "Calculated explanation · GROQ_API_KEY is missing or empty in Secrets"
+    elif last_error:
+        label = f"Calculated explanation · Provider issue: {last_error}"
     else:
         label = "Calculated explanation · AI unavailable, disabled or not configured"
     rendered.update({"focus_id": focus, "relationship_id": relation, "selected_claim_ids": selected_claim_ids, "source": source})
