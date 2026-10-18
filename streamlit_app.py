@@ -288,37 +288,84 @@ def render_state_section() -> None:
     st.title("Is it still alive?")
     st.write("Enter the current scoreboard to see whether the chase is still alive, both teams’ historical win chances, and observed next-over outcomes from comparable prior IPL situations. No live feed or guarantee.")
     if "quick_entry_result" not in st.session_state:
-        try: st.session_state.quick_entry_result=parse_quick_entry("112/3 13.2 t189")
-        except CricketInputError: st.session_state.quick_entry_result=None
-        st.session_state.quick_entry_text="112/3 13.2 t189"
-    with st.form("quick-entry-form"):
-        quick=st.text_input("Score / wickets · overs · target",value=st.session_state.get("quick_entry_text","112/3 13.2 t189"),help="Format: 112/3 13.2 t189 — overs are cricket notation, not decimals.")
-        submitted=st.form_submit_button("Read this chase",type="primary",use_container_width=False)
-        with st.expander("Enter the fields individually instead"):
-            base=st.session_state.get("quick_entry_result") or {"score":112,"wickets_lost":3,"completed_overs":13,"balls_in_over":2,"target":189}
-            score_row=st.columns(2)
-            score=score_row[0].number_input("Score",min_value=0,max_value=1000,value=int(base.get("score",112)),key="field_score")
-            wkts=score_row[1].number_input("Wickets",min_value=0,max_value=10,value=int(base.get("wickets_lost",3)),key="field_wickets")
-            over_row=st.columns(2)
-            overs=over_row[0].number_input("Completed overs",min_value=0,max_value=20,value=int(base.get("completed_overs",13)),key="field_overs")
-            balls=over_row[1].number_input("Balls in over",min_value=0,max_value=5,value=int(base.get("balls_in_over",2)),key="field_balls")
-            target=st.number_input("Target",min_value=1,max_value=1001,value=int(base.get("target",189)),key="field_target")
-            fields_submitted=st.form_submit_button("Use individual fields")
-    if submitted:
-        try:
-            st.session_state.quick_entry_result=parse_quick_entry(quick)
-            st.session_state.quick_entry_text=quick
-            st.session_state.pop("state_explanation",None)
-        except CricketInputError as exc:
-            st.error(str(exc))
-    if 'fields_submitted' in locals() and fields_submitted:
-        try:
-            state=calculate_manual_state(int(score),int(wkts),int(overs),int(balls),int(target))
-            st.session_state.quick_entry_result={"score":score,"wickets_lost":wkts,"completed_overs":overs,"balls_in_over":balls,"target":target,"state":state,"overs_notation":f"{overs}.{balls}"}
-            st.session_state.quick_entry_text=f"{score}/{wkts} {overs}.{balls} t{target}"
-            st.session_state.pop("state_explanation",None)
-        except CricketInputError as exc:
-            st.error(str(exc))
+        try: st.session_state.quick_entry_result = parse_quick_entry("112/3 13.2 t189")
+        except CricketInputError: st.session_state.quick_entry_result = None
+        st.session_state.quick_entry_text = "112/3 13.2 t189"
+        st.session_state.field_score = 112
+        st.session_state.field_wickets = 3
+        st.session_state.field_overs = 13
+        st.session_state.field_balls = 2
+        st.session_state.field_target = 189
+
+    base = st.session_state.get("quick_entry_result") or {"score": 112, "wickets_lost": 3, "completed_overs": 13, "balls_in_over": 2, "target": 189}
+
+    entry_style = st.radio(
+        "Scoreboard entry mode",
+        ["Scoreboard fields", "Quick entry notation (e.g. 112/3 13.2 t189)"],
+        horizontal=True,
+        key="scoreboard_entry_style",
+        help="Select whether to adjust individual scoreboard numbers or enter compact match notation.",
+    )
+
+    if entry_style == "Scoreboard fields":
+        with st.form("scoreboard-fields-form"):
+            score_row = st.columns(2)
+            score = score_row[0].number_input("Score", min_value=0, max_value=1000, value=int(st.session_state.get("field_score", base.get("score", 112))), key="input_field_score")
+            wkts = score_row[1].number_input("Wickets", min_value=0, max_value=10, value=int(st.session_state.get("field_wickets", base.get("wickets_lost", 3))), key="input_field_wickets")
+            over_row = st.columns(2)
+            overs = over_row[0].number_input("Completed overs", min_value=0, max_value=20, value=int(st.session_state.get("field_overs", base.get("completed_overs", 13))), key="input_field_overs")
+            balls = over_row[1].number_input("Balls in over", min_value=0, max_value=5, value=int(st.session_state.get("field_balls", base.get("balls_in_over", 2))), key="input_field_balls")
+            target = st.number_input("Target", min_value=1, max_value=1001, value=int(st.session_state.get("field_target", base.get("target", 189))), key="input_field_target")
+            submitted = st.form_submit_button("Read this chase", type="primary", use_container_width=False)
+        if submitted:
+            try:
+                state = calculate_manual_state(int(score), int(wkts), int(overs), int(balls), int(target))
+                st.session_state.quick_entry_result = {
+                    "score": int(score), "wickets_lost": int(wkts), "completed_overs": int(overs),
+                    "balls_in_over": int(balls), "target": int(target), "state": state,
+                    "overs_notation": f"{overs}.{balls}"
+                }
+                new_quick = f"{score}/{wkts} {overs}.{balls} t{target}"
+                st.session_state.quick_entry_text = new_quick
+                st.session_state.input_quick_entry_text = new_quick
+                st.session_state.field_score = int(score)
+                st.session_state.field_wickets = int(wkts)
+                st.session_state.field_overs = int(overs)
+                st.session_state.field_balls = int(balls)
+                st.session_state.field_target = int(target)
+                st.session_state.pop("state_explanation", None)
+                st.rerun()
+            except CricketInputError as exc:
+                st.error(str(exc))
+    else:
+        with st.form("quick-entry-form"):
+            quick = st.text_input(
+                "Score / wickets · overs · target",
+                value=st.session_state.get("quick_entry_text", "112/3 13.2 t189"),
+                help="Format: 112/3 13.2 t189 — overs are cricket notation, not decimals.",
+                key="input_quick_entry_text",
+            )
+            submitted = st.form_submit_button("Read this chase", type="primary", use_container_width=False)
+        if submitted:
+            try:
+                parsed = parse_quick_entry(quick)
+                st.session_state.quick_entry_result = parsed
+                st.session_state.quick_entry_text = quick
+                st.session_state.field_score = parsed["score"]
+                st.session_state.field_wickets = parsed["wickets_lost"]
+                st.session_state.field_overs = parsed["completed_overs"]
+                st.session_state.field_balls = parsed["balls_in_over"]
+                st.session_state.field_target = parsed["target"]
+                st.session_state.input_field_score = parsed["score"]
+                st.session_state.input_field_wickets = parsed["wickets_lost"]
+                st.session_state.input_field_overs = parsed["completed_overs"]
+                st.session_state.input_field_balls = parsed["balls_in_over"]
+                st.session_state.input_field_target = parsed["target"]
+                st.session_state.pop("state_explanation", None)
+                st.rerun()
+            except CricketInputError as exc:
+                st.error(f"{exc} Tip: Switch to 'Scoreboard fields' above to enter individual scores directly.")
+
     parsed = st.session_state.get("quick_entry_result")
     if not parsed:
         return
@@ -330,7 +377,9 @@ def render_state_section() -> None:
     p = model.get("probability")
     st.markdown(f'<div class="equation">{state["score"]}/{state["wickets_lost"]} · {state["overs_display"]} overs <span style="color:var(--stay-muted)">→</span> {state["runs_required"]} needed / {state["balls_remaining"]} balls</div>', unsafe_allow_html=True)
     st.markdown('<div class="overline">Chase verdict</div>', unsafe_allow_html=True)
-    st.markdown(f'<div class="verdict">{chase_verdict(p)}</div>', unsafe_allow_html=True)
+    verdict_text = chase_verdict(p)
+    verdict_headline = f"{verdict_text} · {pct(p)}" if p is not None else verdict_text
+    st.markdown(f'<div class="verdict">{verdict_headline}</div>', unsafe_allow_html=True)
     st.caption("Based on historical IPL states; never a guarantee. Verdict bands are presentation labels: chasing side favoured at ≥65%, close from 35% to under 65%, defending side favoured below 35%.")
     chance_row = st.columns(2)
     chance_row[0].metric("Chasing side", pct(p))
@@ -375,15 +424,16 @@ def render_state_section() -> None:
     st.subheader("Explain the equation")
     language = st.selectbox("Explanation language", LANGUAGES, index=0, key="live_language")
     cached_exp = st.session_state.get("state_explanation")
-    if not cached_exp or cached_exp.get("language") != language:
+    state_sig = (state["score"], state["wickets_lost"], state["legal_balls_used"], state["target"], language)
+    if not cached_exp or cached_exp.get("state_sig") != state_sig:
         if state["status"] == "active":
             explanation, source, label = run_state_ai(state, language)
-            cached_exp = {"answer": explanation["answer"], "source": source, "label": label, "language": language}
+            cached_exp = {"answer": explanation["answer"], "source": source, "label": label, "language": language, "state_sig": state_sig}
             st.session_state.state_explanation = cached_exp
     if st.button("Refresh explanation", key="explain-live"):
         if state["status"] == "active":
             explanation, source, label = run_state_ai(state, language)
-            cached_exp = {"answer": explanation["answer"], "source": source, "label": label, "language": language}
+            cached_exp = {"answer": explanation["answer"], "source": source, "label": label, "language": language, "state_sig": state_sig}
             st.session_state.state_explanation = cached_exp
     if cached_exp:
         st.markdown(cached_exp["answer"])
