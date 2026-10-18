@@ -1,0 +1,502 @@
+{
+  "baseline_interpretation": "Calibrated lookup has a lower pooled Brier score than the required-rate-only baseline on this held-out split.",
+  "calibration": {
+    "first_innings_lookup": [
+      {
+        "bin": "0.0\u20130.1",
+        "mean_predicted": 0.0938,
+        "n": 1,
+        "observed_win_rate": 0.0
+      },
+      {
+        "bin": "0.1\u20130.2",
+        "mean_predicted": 0.153,
+        "n": 20,
+        "observed_win_rate": 0.05
+      },
+      {
+        "bin": "0.2\u20130.3",
+        "mean_predicted": 0.263,
+        "n": 45,
+        "observed_win_rate": 0.0222
+      },
+      {
+        "bin": "0.3\u20130.4",
+        "mean_predicted": 0.357,
+        "n": 117,
+        "observed_win_rate": 0.2393
+      },
+      {
+        "bin": "0.4\u20130.5",
+        "mean_predicted": 0.4525,
+        "n": 146,
+        "observed_win_rate": 0.3493
+      },
+      {
+        "bin": "0.5\u20130.6",
+        "mean_predicted": 0.5394,
+        "n": 156,
+        "observed_win_rate": 0.4423
+      },
+      {
+        "bin": "0.6\u20130.7",
+        "mean_predicted": 0.6458,
+        "n": 128,
+        "observed_win_rate": 0.5859
+      },
+      {
+        "bin": "0.7\u20130.8",
+        "mean_predicted": 0.7462,
+        "n": 87,
+        "observed_win_rate": 0.5632
+      },
+      {
+        "bin": "0.8\u20130.9",
+        "mean_predicted": 0.8516,
+        "n": 126,
+        "observed_win_rate": 0.7381
+      },
+      {
+        "bin": "0.9\u20131.0",
+        "mean_predicted": null,
+        "n": 0,
+        "observed_win_rate": null
+      }
+    ],
+    "historical_lookup": [
+      {
+        "bin": "0.0\u20130.1",
+        "mean_predicted": 0.0617,
+        "n": 132,
+        "observed_win_rate": 0.053
+      },
+      {
+        "bin": "0.1\u20130.2",
+        "mean_predicted": 0.1422,
+        "n": 123,
+        "observed_win_rate": 0.1545
+      },
+      {
+        "bin": "0.2\u20130.3",
+        "mean_predicted": 0.2463,
+        "n": 74,
+        "observed_win_rate": 0.2432
+      },
+      {
+        "bin": "0.3\u20130.4",
+        "mean_predicted": 0.3546,
+        "n": 51,
+        "observed_win_rate": 0.549
+      },
+      {
+        "bin": "0.4\u20130.5",
+        "mean_predicted": 0.4497,
+        "n": 31,
+        "observed_win_rate": 0.6452
+      },
+      {
+        "bin": "0.5\u20130.6",
+        "mean_predicted": 0.5493,
+        "n": 33,
+        "observed_win_rate": 0.7576
+      },
+      {
+        "bin": "0.6\u20130.7",
+        "mean_predicted": 0.6474,
+        "n": 33,
+        "observed_win_rate": 0.8485
+      },
+      {
+        "bin": "0.7\u20130.8",
+        "mean_predicted": 0.7572,
+        "n": 70,
+        "observed_win_rate": 0.9143
+      },
+      {
+        "bin": "0.8\u20130.9",
+        "mean_predicted": 0.8496,
+        "n": 58,
+        "observed_win_rate": 0.8793
+      },
+      {
+        "bin": "0.9\u20131.0",
+        "mean_predicted": 0.9516,
+        "n": 143,
+        "observed_win_rate": 1.0
+      }
+    ],
+    "raw_historical_lookup": [
+      {
+        "bin": "0.0\u20130.1",
+        "mean_predicted": 0.0785,
+        "n": 17,
+        "observed_win_rate": 0.0588
+      },
+      {
+        "bin": "0.1\u20130.2",
+        "mean_predicted": 0.1593,
+        "n": 123,
+        "observed_win_rate": 0.0569
+      },
+      {
+        "bin": "0.2\u20130.3",
+        "mean_predicted": 0.2459,
+        "n": 129,
+        "observed_win_rate": 0.155
+      },
+      {
+        "bin": "0.3\u20130.4",
+        "mean_predicted": 0.3463,
+        "n": 88,
+        "observed_win_rate": 0.3295
+      },
+      {
+        "bin": "0.4\u20130.5",
+        "mean_predicted": 0.4426,
+        "n": 58,
+        "observed_win_rate": 0.6379
+      },
+      {
+        "bin": "0.5\u20130.6",
+        "mean_predicted": 0.5469,
+        "n": 55,
+        "observed_win_rate": 0.8182
+      },
+      {
+        "bin": "0.6\u20130.7",
+        "mean_predicted": 0.6565,
+        "n": 81,
+        "observed_win_rate": 0.9136
+      },
+      {
+        "bin": "0.7\u20130.8",
+        "mean_predicted": 0.7476,
+        "n": 62,
+        "observed_win_rate": 0.8871
+      },
+      {
+        "bin": "0.8\u20130.9",
+        "mean_predicted": 0.8552,
+        "n": 111,
+        "observed_win_rate": 1.0
+      },
+      {
+        "bin": "0.9\u20131.0",
+        "mean_predicted": 0.916,
+        "n": 24,
+        "observed_win_rate": 1.0
+      }
+    ]
+  },
+  "calibration_models": {
+    "chase": {
+      "features": "intercept + slope * logit(raw_probability)",
+      "intercept": 0.0763776087,
+      "method": "temporal walk-forward Platt logistic recalibration",
+      "model_kind": "chase",
+      "regularization": 0.01,
+      "scope_note": "Fit only on walk-forward training predictions for completed overs 6, 10, 15 and 18; test matches were not used.",
+      "slope": 1.6147122531,
+      "training_cutoff_inclusive": "2023-12-31",
+      "training_state_count": 3420
+    },
+    "first_innings": {
+      "features": "intercept + slope * logit(raw_probability)",
+      "intercept": 0.028918647,
+      "method": "temporal walk-forward Platt logistic recalibration",
+      "model_kind": "first_innings",
+      "regularization": 0.01,
+      "scope_note": "Fit only on walk-forward training predictions for completed overs 6, 10, 15 and 18; test matches were not used.",
+      "slope": 1.5213932006,
+      "training_cutoff_inclusive": "2023-12-31",
+      "training_state_count": 3773
+    }
+  },
+  "calibration_training": {
+    "chase_states": 3420,
+    "first_innings_states": 3773
+  },
+  "checkpoints": {
+    "10": {
+      "historical_lookup": {
+        "accuracy": 0.8209,
+        "brier": 0.13078,
+        "log_loss": 0.41388,
+        "mean_prediction": 0.469,
+        "n": 201,
+        "observed_win_rate": 0.5572
+      },
+      "raw_historical_lookup": {
+        "accuracy": 0.8259,
+        "brier": 0.14344,
+        "log_loss": 0.45723,
+        "mean_prediction": 0.4702,
+        "n": 201,
+        "observed_win_rate": 0.5572
+      },
+      "required_rate_only_baseline": {
+        "accuracy": 0.8333,
+        "brier": 0.17776,
+        "log_loss": 0.53703,
+        "mean_prediction": 0.465,
+        "n": 204,
+        "observed_win_rate": 0.549
+      },
+      "unavailable_model_predictions": 3
+    },
+    "15": {
+      "historical_lookup": {
+        "accuracy": 0.8947,
+        "brier": 0.09267,
+        "log_loss": 0.31279,
+        "mean_prediction": 0.5053,
+        "n": 190,
+        "observed_win_rate": 0.5474
+      },
+      "raw_historical_lookup": {
+        "accuracy": 0.9,
+        "brier": 0.10552,
+        "log_loss": 0.36147,
+        "mean_prediction": 0.4997,
+        "n": 190,
+        "observed_win_rate": 0.5474
+      },
+      "required_rate_only_baseline": {
+        "accuracy": 0.8564,
+        "brier": 0.13598,
+        "log_loss": 0.43185,
+        "mean_prediction": 0.4354,
+        "n": 195,
+        "observed_win_rate": 0.5385
+      },
+      "unavailable_model_predictions": 5
+    },
+    "18": {
+      "historical_lookup": {
+        "accuracy": 0.9,
+        "brier": 0.07609,
+        "log_loss": 0.26056,
+        "mean_prediction": 0.4727,
+        "n": 150,
+        "observed_win_rate": 0.4733
+      },
+      "raw_historical_lookup": {
+        "accuracy": 0.9,
+        "brier": 0.09019,
+        "log_loss": 0.32224,
+        "mean_prediction": 0.4827,
+        "n": 150,
+        "observed_win_rate": 0.4733
+      },
+      "required_rate_only_baseline": {
+        "accuracy": 0.8874,
+        "brier": 0.08982,
+        "log_loss": 0.29473,
+        "mean_prediction": 0.3678,
+        "n": 151,
+        "observed_win_rate": 0.4702
+      },
+      "unavailable_model_predictions": 1
+    },
+    "6": {
+      "historical_lookup": {
+        "accuracy": 0.7729,
+        "brier": 0.14462,
+        "log_loss": 0.44957,
+        "mean_prediction": 0.4472,
+        "n": 207,
+        "observed_win_rate": 0.5604
+      },
+      "raw_historical_lookup": {
+        "accuracy": 0.7633,
+        "brier": 0.15755,
+        "log_loss": 0.48986,
+        "mean_prediction": 0.4514,
+        "n": 207,
+        "observed_win_rate": 0.5604
+      },
+      "required_rate_only_baseline": {
+        "accuracy": 0.7885,
+        "brier": 0.18843,
+        "log_loss": 0.56195,
+        "mean_prediction": 0.4953,
+        "n": 208,
+        "observed_win_rate": 0.5577
+      },
+      "unavailable_model_predictions": 1
+    }
+  },
+  "first_innings_checkpoints": {
+    "10": {
+      "historical_lookup": {
+        "accuracy": 0.6394,
+        "brier": 0.22373,
+        "log_loss": 0.63809,
+        "mean_prediction": 0.5314,
+        "n": 208,
+        "observed_win_rate": 0.4423
+      },
+      "raw_historical_lookup": {
+        "accuracy": 0.649,
+        "brier": 0.22532,
+        "log_loss": 0.64202,
+        "mean_prediction": 0.5171,
+        "n": 208,
+        "observed_win_rate": 0.4423
+      },
+      "unavailable_model_predictions": 0
+    },
+    "15": {
+      "historical_lookup": {
+        "accuracy": 0.6377,
+        "brier": 0.22137,
+        "log_loss": 0.63827,
+        "mean_prediction": 0.5946,
+        "n": 207,
+        "observed_win_rate": 0.4444
+      },
+      "raw_historical_lookup": {
+        "accuracy": 0.6377,
+        "brier": 0.21768,
+        "log_loss": 0.626,
+        "mean_prediction": 0.5646,
+        "n": 207,
+        "observed_win_rate": 0.4444
+      },
+      "unavailable_model_predictions": 0
+    },
+    "18": {
+      "historical_lookup": {
+        "accuracy": 0.6798,
+        "brier": 0.21683,
+        "log_loss": 0.62879,
+        "mean_prediction": 0.6198,
+        "n": 203,
+        "observed_win_rate": 0.4483
+      },
+      "raw_historical_lookup": {
+        "accuracy": 0.6798,
+        "brier": 0.21288,
+        "log_loss": 0.61566,
+        "mean_prediction": 0.584,
+        "n": 203,
+        "observed_win_rate": 0.4483
+      },
+      "unavailable_model_predictions": 0
+    },
+    "6": {
+      "historical_lookup": {
+        "accuracy": 0.6298,
+        "brier": 0.22817,
+        "log_loss": 0.64868,
+        "mean_prediction": 0.4924,
+        "n": 208,
+        "observed_win_rate": 0.4423
+      },
+      "raw_historical_lookup": {
+        "accuracy": 0.625,
+        "brier": 0.23179,
+        "log_loss": 0.65611,
+        "mean_prediction": 0.4905,
+        "n": 208,
+        "observed_win_rate": 0.4423
+      },
+      "unavailable_model_predictions": 0
+    }
+  },
+  "first_innings_pooled": {
+    "historical_lookup": {
+      "accuracy": 0.6465,
+      "brier": 0.22256,
+      "log_loss": 0.63852,
+      "mean_prediction": 0.5591,
+      "n": 826,
+      "observed_win_rate": 0.4443
+    },
+    "raw_historical_lookup": {
+      "accuracy": 0.6477,
+      "brier": 0.22197,
+      "log_loss": 0.63507,
+      "mean_prediction": 0.5387,
+      "n": 826,
+      "observed_win_rate": 0.4443
+    }
+  },
+  "notes": [
+    "All test values are state-level predictions; a match may contribute one observation at multiple checkpoint overs.",
+    "Historical lookup estimates are associated-state frequencies with six-year recency weighting and smoothing, not causal estimates or guarantees.",
+    "Calibration parameters use walk-forward training predictions through 2023 only. No 2024\u20132026 result is used to fit them.",
+    "States with effective sample size below eight are returned as unavailable, not imputed."
+  ],
+  "pooled": {
+    "historical_lookup": {
+      "accuracy": 0.8422,
+      "brier": 0.11396,
+      "log_loss": 0.36733,
+      "mean_prediction": 0.4729,
+      "n": 748,
+      "observed_win_rate": 0.5388
+    },
+    "raw_historical_lookup": {
+      "accuracy": 0.8422,
+      "brier": 0.12703,
+      "log_loss": 0.41487,
+      "mean_prediction": 0.475,
+      "n": 748,
+      "observed_win_rate": 0.5388
+    },
+    "required_rate_only_baseline": {
+      "accuracy": 0.8377,
+      "brier": 0.15242,
+      "log_loss": 0.46854,
+      "mean_prediction": 0.4463,
+      "n": 758,
+      "observed_win_rate": 0.533
+    }
+  },
+  "prematch_elo": {
+    "constant_50_percent_probability_baseline": {
+      "brier": 0.25,
+      "expected_accuracy_for_a_random_side_guess": 0.5,
+      "log_loss": 0.69315,
+      "n": 208,
+      "observed_first_innings_win_rate": 0.4423
+    },
+    "elo_rating_only_first_innings_win_probability": {
+      "accuracy": 0.5096,
+      "brier": 0.25779,
+      "log_loss": 0.70929,
+      "mean_prediction": 0.4982,
+      "n": 208,
+      "observed_win_rate": 0.4423
+    },
+    "interpretation": "Pre-match Elo classification accuracy is only marginally above the 50% expected accuracy of a random side guess, and its probability scores are worse than a constant 50% forecast; it is not demonstrated to beat coin flip as a probability model.",
+    "missing_rating_context": 0,
+    "test_matches_with_ratings": 208
+  },
+  "protocol": {
+    "calibration_method": "two-parameter Platt logistic recalibration fit on walk-forward training predictions only",
+    "checkpoint_overs": [
+      6,
+      10,
+      15,
+      18
+    ],
+    "prior_weight": 4,
+    "recency_half_life_years": 6,
+    "required_rate_bucket_width": 2,
+    "same_day_excluded": true,
+    "strict_date_cutoff": true,
+    "target_match_excluded": true,
+    "test_end_inclusive": "2026-12-31",
+    "test_start_inclusive": "2024-01-01",
+    "train_cutoff_inclusive": "2023-12-31"
+  },
+  "provenance": {
+    "eligible_matches": 1172,
+    "source": "Cricsheet IPL JSON; ODC-By 1.0",
+    "source_archive_sha256": "5757e04287179767ff8495f02902bd13812b9572ec8fa2ac1347ec2e9c6d4709",
+    "test_matches_in_date_window": 208,
+    "training_matches": 964
+  }
+}
