@@ -5,4 +5,5 @@ pydantic==2.13.5
 python-dotenv==1.2.2
 pandas>=2.2,<3
 streamlit==1.66.0
-altair>=5.0,<6
+altair>=5.4.1
+typing-extensions>=4.12.0
