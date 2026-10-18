@@ -1,0 +1,8 @@
+fastapi==0.128.2
+uvicorn[standard]==0.48.0
+httpx==0.28.1
+pydantic==2.13.5
+python-dotenv==1.2.2
+pandas>=2.2,<3
+streamlit==1.66.0
+altair>=5.0,<6
