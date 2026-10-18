@@ -94,7 +94,7 @@ Every LLM generation passes through a strict multi-tier validation pipeline befo
 ### 3. Rate Limiting, Safety & Budget Isolation
 
 - **Session Isolation**: Client rate limiting is keyed on a cryptographically secure 128-bit random hex token (`session:{ai_session}`) generated per browser session. Client headers (`x-forwarded-for` and `host`) are never trusted, ensuring each visitor has an isolated budget slot and cannot exhaust other users' limits.
-- **Daily Global Cap**: Default 20 calls/day (`AI_DAILY_BUDGET`), protecting the Groq API key from runaway consumption.
+- **Daily Global Cap**: Default 200 calls/day (`AI_DAILY_BUDGET`), protecting the Groq API key from runaway consumption while providing ample capacity for reviewers and live visitors.
 - **Circuit Breaker / Fallback**: When the budget is reached, or when the AI killswitch is engaged (`AI_ENABLED=false`), or if the provider times out, the app silently falls back to a deterministic, server-owned calculated explanation. The UI clearly labels when a fallback explanation is being displayed.
 - **Cold-Start Handling**: SQLite state lives in `/tmp` on Streamlit Community Cloud; cold-starts cleanly reset local counts without breaking application availability.
 

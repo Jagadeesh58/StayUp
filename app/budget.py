@@ -21,7 +21,7 @@ logger = logging.getLogger("stayup.budget")
 
 BASE_DIR = Path(__file__).resolve().parent
 DB_PATH = Path(os.getenv("APP_DB_PATH", str(BASE_DIR.parent / "stayup_state.sqlite3")))
-DAILY_AI_BUDGET = max(1, int(os.getenv("AI_DAILY_BUDGET", "20")))
+DAILY_AI_BUDGET = max(1, int(os.getenv("AI_DAILY_BUDGET", "200")))
 BURST_PER_MINUTE = max(1, int(os.getenv("AI_BURST_PER_MINUTE", "4")))
 _LOCAL_RATE_LIMIT_SALT = secrets.token_hex(32)
 
