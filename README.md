@@ -143,5 +143,3 @@ Derived from the [Cricsheet IPL JSON archive](https://cricsheet.org/downloads/ip
 ## License
 
 Source code: [MIT License](LICENSE) · Derived data: [ODC-By 1.0](app/data/LICENSE.txt) by Cricsheet
-
-*Independent prototype. Not affiliated with Dream11, Dream Sports, IPL, BCCI, or Cricsheet.*
