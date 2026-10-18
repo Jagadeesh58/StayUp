@@ -379,8 +379,15 @@ def render_state_section() -> None:
     st.markdown('<div class="overline">Chase verdict</div>', unsafe_allow_html=True)
     verdict_text = chase_verdict(p)
     verdict_headline = f"{verdict_text} · {pct(p)}" if p is not None else verdict_text
-    st.markdown(f'<div class="verdict">{verdict_headline}</div>', unsafe_allow_html=True)
-    st.caption("Based on historical IPL states; never a guarantee. Verdict bands are presentation labels: chasing side favoured at ≥65%, close from 35% to under 65%, defending side favoured below 35%.")
+    if p is None:
+        band_desc = "Not enough historical match support to classify this chase."
+    elif p >= 0.65:
+        band_desc = f"Current chase falls in the **Chasing side favoured** band ({pct(p)} ≥ 65%)."
+    elif p >= 0.35:
+        band_desc = f"Current chase falls in the **Close chase** band ({pct(p)} is between 35% and 65%)."
+    else:
+        band_desc = f"Current chase falls in the **Defending side favoured** band (chasing chance {pct(p)} < 35%)."
+    st.caption(f"{band_desc} Based on historical IPL states; never a guarantee. Thresholds: chasing favoured at ≥65%, close from 35% to under 65%, defending favoured below 35%.")
     chance_row = st.columns(2)
     chance_row[0].metric("Chasing side", pct(p))
     chance_row[1].metric("Defending side", pct(1 - p if p is not None else None))
