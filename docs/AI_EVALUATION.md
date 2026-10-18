@@ -65,3 +65,44 @@ Each calibrator is fit with a two-parameter logistic map on walk-forward predict
 - Calibration fitted on 6/10/15/18-over checkpoints is also used for active states between checkpoints. That is an explicit pragmatic approximation; future releases should evaluate calibration by over bucket and consider a dedicated mid-over dataset.
 - The historical lookup is descriptive and does not estimate causal effects of wickets, boundaries or player decisions.
 - Rerun `python scripts/evaluate_model.py` after changes to data, features, bucket widths, model weights or eligibility rules.
+
+## LLM & AI Service Evaluation
+
+### 1. Model Configuration & Provider
+
+- **Provider**: Groq (`https://api.groq.com/openai/v1/chat/completions`)
+- **Pinned Model**: `qwen/qwen3.8-27b` (pinned directly in `app/ai_service.py`; environment overrides are ignored to ensure verified deterministic execution).
+- **Sampling Temperature**: `0.0` (deterministic greedy decoding).
+- **Max Output Tokens**: `2048`.
+  - *Headroom rationale*: `qwen/qwen3.8-27b` outputs internal `<think>` reasoning tokens. At `max_tokens=1024`, complex chase states consumed significant token budget during thinking, creating a risk of truncating the structured JSON payload. Setting `max_tokens=2048` guarantees full thinking headroom while ensuring complete JSON output.
+- **Strict Structured Outputs**: Forced via `response_format: {"type": "json_schema"}` constraining the response strictly to `{relationship_id, focus_id, selected_claim_ids, explanation}`.
+
+### 2. Guardrails & Numeric Grounding Evaluation
+
+Every LLM generation passes through a strict multi-tier validation pipeline before being rendered to the user:
+
+1. **Strict Numeric Grounding**:
+   - Every number in the generated response (both Arabic numerals and spelled-out number words in English, Hindi, Telugu, Tamil, Bengali, Marathi, and Hinglish) must be mathematically present in the server's pre-computed facts (`score`, `target`, `runs_required`, `balls_remaining`, `current_rate`, `required_rate`).
+   - If any ungrounded number or invented statistic is detected, the response is rejected immediately (`AIProviderError`) and replaced by a deterministic server-calculated explanation.
+2. **Causal & Speculation Filtering**:
+   - The LLM is restricted to descriptive situational framing. Any speculative claims attributing psychological states or unmeasured causes (e.g. "nervous", "collapsed", "frightened", "panicked") are trapped and rejected.
+3. **Sentence Count & Conciseness**:
+   - Responses are strictly validated to 2–3 complete sentences.
+4. **Multilingual Support**:
+   - Supported across 7 languages (English, Hindi, Telugu, Tamil, Bengali, Marathi, Hinglish). Number words in each language (e.g. "seventy-seven", regional numeral forms, compound numerals like "one hundred and five") are parsed and validated against ground truth facts.
+
+### 3. Rate Limiting, Safety & Budget Isolation
+
+- **Session Isolation**: Client rate limiting is keyed on a cryptographically secure 128-bit random hex token (`session:{ai_session}`) generated per browser session. Client headers (`x-forwarded-for` and `host`) are never trusted, ensuring each visitor has an isolated budget slot and cannot exhaust other users' limits.
+- **Daily Global Cap**: Default 20 calls/day (`AI_DAILY_BUDGET`), protecting the Groq API key from runaway consumption.
+- **Circuit Breaker / Fallback**: When the budget is reached, or when the AI killswitch is engaged (`AI_ENABLED=false`), or if the provider times out, the app silently falls back to a deterministic, server-owned calculated explanation. The UI clearly labels when a fallback explanation is being displayed.
+- **Cold-Start Handling**: SQLite state lives in `/tmp` on Streamlit Community Cloud; cold-starts cleanly reset local counts without breaking application availability.
+
+### 4. Verification & Test Suite Results
+
+- **Live Provider Verification**: Tested end-to-end via `python scripts/verify_ai.py` against Groq's live API with an uncached query. Result: `PASS` — valid structured JSON output matching all ground-truth facts.
+- **Automated Test Suite**: 115 passing tests across unit, integration, and UI layers:
+  - `tests/test_ai_service.py` (23 tests): Validates model pinning, schema conformity, cache deduplication, causal text rejection, and budget enforcement.
+  - `tests/test_numeric_grounding.py` (10 tests): Validates multilingual digit/word extraction and rejection of ungrounded numbers.
+  - `tests/test_adversarial.py`: Validates resistance to prompt injection and malicious score inputs.
+  - `tests/test_streamlit_browser.py`: Validates headless Playwright smoke tests across desktop (1440px) and mobile (360px) viewports with zero console errors.

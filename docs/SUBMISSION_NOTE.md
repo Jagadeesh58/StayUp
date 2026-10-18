@@ -1,14 +1,15 @@
-# StayUp Cricket — Project Submission Note
+# Short Note: StayUp Cricket
 
-- **Live Web Application**: [https://stayup.streamlit.app/](https://stayup.streamlit.app/)
-- **GitHub Repository**: [https://github.com/Jagadeesh58/StayUp](https://github.com/Jagadeesh58/StayUp)
+Maximum 200 words
 
-When you tune into a T20 chase halfway through, broadcasts rarely answer the real question: is this chase still alive? StayUp Cricket gives fans an instant, grounded read without a live score feed.
+- 🌐 **Live Web Application**: [https://stayup.streamlit.app/](https://stayup.streamlit.app/)
+- 📦 **GitHub Repository**: [https://github.com/Jagadeesh58/StayUp](https://github.com/Jagadeesh58/StayUp)
 
-You type the match state (for example 112/3 13.2 t189) and get the exact equation, both teams’ historical win chances, a verdict on which side history favours, and what comparable IPL chases did over the next over. A second tab replays 15 real IPL chases ball by ball, hiding future scores and the result until you reach them.
+### The fan problem
+Fans often tune into a T20 chase halfway through. The broadcast shows the score but rarely explains what it means. Is 112/3 after 13.2 overs, chasing 189, comfortable or desperate?
 
-Every number comes from Python and Cricsheet IPL data. On 748 held-out chase states from 208 matches (2024 to 2026) the model’s probabilities were more accurate than the required run rate alone (Brier 0.114 vs 0.153).
+### How the solution helps
+StayUp Cricket answers one question: "Is this chase still alive?" The fan types the score, for example 112/3 13.2 t189, and instantly sees the exact equation, both teams' historical win chances, a plain verdict, and the typical runs similar IPL chases scored in the next over, plus how often a wicket or boundary came. A spoiler-free replay lets fans step through 15 real chases ball by ball. Every number is calculated in Python from 1,172 IPL matches. On 208 unseen matches from 2024 to 2026, it beat a required-run-rate baseline (Brier 0.114 vs 0.152).
 
-AI: Groq’s qwen/qwen3.8-27b writes a short explanation from approved facts. Any unsupported number or invented cause is rejected and a calculated explanation is shown instead. Built with Python and Streamlit, assisted by ChatGPT, Google Antigravity/Gemini and Claude.
-
-Limits: past frequency is a guide, never a guarantee. Not affiliated with Dream11, the IPL or Cricsheet.
+### AI tools used
+In the app, a Groq-hosted Qwen model writes short explanations in seven languages, including Hindi, Telugu and Tamil. It only uses facts supplied by Python, and any unsupported number is rejected and replaced by a calculated explanation. Used to build the project: ChatGPT, Google Antigravity/Gemini and Claude.
