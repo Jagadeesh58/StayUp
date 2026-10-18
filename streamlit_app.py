@@ -374,16 +374,20 @@ def render_state_section() -> None:
 
     st.subheader("Explain the equation")
     language = st.selectbox("Explanation language", LANGUAGES, index=0, key="live_language")
-    if st.button("Explain this chase", key="explain-live", type="primary"):
-        if state["status"] != "active":
-            st.warning("An active chase is required.")
-        else:
+    cached_exp = st.session_state.get("state_explanation")
+    if not cached_exp or cached_exp.get("language") != language:
+        if state["status"] == "active":
             explanation, source, label = run_state_ai(state, language)
-            st.session_state.state_explanation = {"answer": explanation["answer"], "source": source, "label": label, "language": language}
-    if st.session_state.get("state_explanation"):
-        item = st.session_state.state_explanation
-        st.markdown(item["answer"])
-        st.caption(item["label"])
+            cached_exp = {"answer": explanation["answer"], "source": source, "label": label, "language": language}
+            st.session_state.state_explanation = cached_exp
+    if st.button("Refresh explanation", key="explain-live"):
+        if state["status"] == "active":
+            explanation, source, label = run_state_ai(state, language)
+            cached_exp = {"answer": explanation["answer"], "source": source, "label": label, "language": language}
+            st.session_state.state_explanation = cached_exp
+    if cached_exp:
+        st.markdown(cached_exp["answer"])
+        st.caption(cached_exp["label"])
 
 
 def _match_label(m: dict[str, Any]) -> str:
