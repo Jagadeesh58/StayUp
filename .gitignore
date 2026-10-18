@@ -1,0 +1,32 @@
+# Environment and secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+secrets/
+.streamlit/secrets.toml
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+
+# App runtime state
+*.sqlite3
+*.sqlite3-shm
+*.sqlite3-wal
+*.db
+
+# Packaging / local editor files
+dist/
+build/
+*.zip
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
